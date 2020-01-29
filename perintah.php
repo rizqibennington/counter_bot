@@ -1,8 +1,5 @@
 <?php  
 $usernamebot = "@CounterWordBot";
-//jika pesan terisi
-if (isset($message['message'])) {
-    $sumber = $message['message'];
     $idchat = $sumber['chat']['id'];
     $namadepan = $sumber['from']['first_name'];
     $iduser = $sumber['from']['id'];
@@ -348,6 +345,4 @@ if (isset($message['message'])) {
         
         }
     } 
-}
-
 ?>

@@ -17,8 +17,7 @@ define('BOT_TOKEN', $token);
 define('myVERSI', 'BETA 1.0');
 define('lastUPDATE', '15 januari 2020');
 
-// ambil databasenya
-include 'query.php';
+
 
 // aktifkan ini jika ingin menampilkan debugging poll
 // $debug = false;
@@ -34,30 +33,14 @@ function exec_curl_request($handle)
 
         return false;
     }
-
-    // $http_code = intval(curl_getinfo($handle, CURLINFO_HTTP_CODE));
+   
     curl_close($handle);
 
-    // if ($http_code >= 500) {
-    //     // do not wat to DDOS server if something goes wrong
-    // sleep(10);
-
-    //     return false;
-    // } elseif ($http_code != 200) {
-    //     $response = json_decode($response, true);
-    //     error_log("Request has failed with error {$response['error_code']}: {$response['description']}\n");
-    //     if ($http_code == 401) {
-    //         throw new Exception('Invalid access token provided');
-    //     }
-
-    //     return false;
-    // } else {
-        $response = json_decode($response, true);
-        if (isset($response['description'])) {
-            error_log("Request was successfull: {$response['description']}\n");
-        }
-        $response = $response['result'];
-    // }
+    $response = json_decode($response, true);
+    if (isset($response['description'])) {
+        error_log("Request was successfull: {$response['description']}\n");
+    }
+    $response = $response['result'];
 
     return $response;
 }
@@ -138,35 +121,7 @@ function getUpdates($last_id = null)
   return apiRequest('getUpdates', $params);
 }
 
-// ----------- pantengin mulai ini
-function sendMessage($idchat, $pesan)
-{
-    
-    $data = [
-    'chat_id'             => $idchat,
-    'text'                => $pesan,
-  ];
-
-    return apiRequest('sendMessage', $data);
-}
-
-function processMessage($message){
-    include 'perintah.php';
-}
-
-// pencetakan versi dan info waktu server, berfungsi jika test hook
-echo 'Ver. '.myVERSI.' OK Start!'.PHP_EOL.date('Y-m-d H:i:s').PHP_EOL;
-function printUpdates($result)
-{
-    
-    foreach ($result as $obj) {
-        // echo $obj['message']['text'].PHP_EOL;
-    processMessage($obj);
-        $last_id = $obj['update_id'];
-    }
-
-    return $last_id;
-}
+include 'pesan.php';
 
 // AKTIFKAN INI jika menggunakan metode poll
 // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
