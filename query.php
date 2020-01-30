@@ -1,6 +1,4 @@
 <?php
-// fungsi mengkoneksikan query
-$conn = mysqli_connect("localhost","root","","counter");
 function query($query){
 	global $conn;
 

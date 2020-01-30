@@ -1,26 +1,24 @@
 <?php
 
-/* 
-buatlah file token.php isinya :
-$token = "isiTokenBotmu";
-*/
-require 'token.php';
+//takutnya ada versi waktu di pc yang beda jadi biar sama pake ini
+date_default_timezone_set('Asia/Jakarta');
+
+//file koneksi db sama token
+require 'koneksi.php';
 
 // masukkan bot token di sini
 define('BOT_TOKEN', $token);
 
 // versi official telegram bot
- define('API_URL', 'https://api.telegram.org/bot'.BOT_TOKEN.'/');
+define('API_URL', 'https://api.telegram.org/bot'.BOT_TOKEN.'/');
 
-// versi 3rd party, biar bisa tanpa https / tanpa SSL.
-//define('API_URL', 'https://api.pwrtelegram.xyz/bot'.BOT_TOKEN.'/');
-define('myVERSI', 'BETA 1.0');
-define('lastUPDATE', '15 januari 2020');
-
+//cetak versi dan tanggal update
+define('myVERSI', 'BETA 2.0');
+define('lastUPDATE', '20 januari 2020');
 
 
-// aktifkan ini jika ingin menampilkan debugging poll
-// $debug = false;
+
+//menampilkan debugging poll
 function exec_curl_request($handle)
 {
     $response = curl_exec($handle);
@@ -45,6 +43,7 @@ function exec_curl_request($handle)
     return $response;
 }
 
+//melakukan request API
 function apiRequest($method, $parameters = null)
 {
     if (!is_string($method)) {
@@ -78,6 +77,7 @@ function apiRequest($method, $parameters = null)
     return exec_curl_request($handle);
 }
 
+//fungsi mendapatkan request untuk JSON
 function apiRequestJson($method, $parameters)
 {
     if (!is_string($method)) {
@@ -111,6 +111,7 @@ if (strlen(BOT_TOKEN) < 20) {
     die(PHP_EOL."-> -> Token BOT API nya mohon diisi dengan benar!\n");
 }
 
+//fungsi untuk mengambil getupdates yang dibatasi limit 1
 function getUpdates($last_id = null)
 {
     $params = [];

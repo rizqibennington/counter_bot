@@ -1,18 +1,5 @@
 <?php
-// ambil databasenya
-include 'query.php';
-// ----------- pantengin mulai ini
-function sendMessage($idchat, $pesan)
-{
-
-    $data = [
-        'chat_id'             => $idchat,
-        'text'                => $pesan,
-    ];
-
-    return apiRequest('sendMessage', $data);
-}
-
+//fungsi memproses pesan
 function processMessage($message)
 {
     if (isset($message['message'])) {
@@ -25,16 +12,26 @@ function processMessage($message)
         include 'perintah.php';
     }
 }
+// fungsi mengirim pesan
+function sendMessage($idchat, $pesan)
+{
+
+    $data = [
+        'chat_id'             => $idchat,
+        'text'                => $pesan,
+    ];
+
+    return apiRequest('sendMessage', $data);
+}
 
 // pencetakan versi dan info waktu server, berfungsi jika test hook
 echo 'Ver. ' . myVERSI . ' OK Start!' . PHP_EOL . date('Y-m-d H:i:s') . PHP_EOL;
 
-
+//fungsi print update
 function printUpdates($result)
 {
 
     foreach ($result as $obj) {
-        // echo $obj['message']['text'].PHP_EOL;
         processMessage($obj);
         $last_id = $obj['update_id'];
     }
